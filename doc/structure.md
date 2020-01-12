@@ -1,13 +1,13 @@
 # npuzzle
   
--- parser
+### parser
   [optional] verify input data (if from command line)  
   
   parse data into digestible form (for UI, for algorithm)   
   create final case  
   [output]: first state, final state.  
   
--- interface  
+### interface  
   can generate all the possible next states from the current state  
   [input]: some state  
   [output]: array of possible sates  
