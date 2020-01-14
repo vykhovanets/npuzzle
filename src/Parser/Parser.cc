@@ -30,14 +30,16 @@ Parser::Parser(int ac, char **av) {
     println("Parser: this n-puzzle is unsolvable.");
     exit(1);
   }
+
+  construct_final_state();
 }
 
 auto Parser::get_first_state() -> vector<vector<int>> {
   return first_state;
 }
 
-auto get_final_state() -> vector<point> {
-  
+auto Parser::get_final_state() -> vector<point> {
+  return final_state;
 }
 
 auto Parser::get_heuristics_index() -> int {
@@ -100,9 +102,9 @@ auto Parser::check_correctness() -> bool {
     }
   }
 
-  first_state = state;
+  first_state = std::move(state);
 
-  print_2D(state);
+  print_2D(first_state);
 
   return true;
 }
@@ -117,4 +119,37 @@ auto Parser::is_unique(vector<bool> &check, int n) -> bool {
     return true;
   } else
     return false;
+}
+
+auto Parser::construct_final_state() -> void {
+  
+  vector<point> state(size * size);
+  
+  int end{size * size};
+  int count{(size + 1) / 2};
+  int n{1};
+  int low{0}, high{size - 1};
+
+  for (int i{0}; i < count; i++) {
+    for (int j{low}; j < high + 1; j++) {
+      state.at(n) = {i, j};
+      if (++n == end) n = 0;
+    }
+    for (int j{low + 1}; j < high + 1; j++) {
+      state.at(n) = {j, high};
+      if (++n == end) n = 0;
+    }
+    for (int j{high - 1}; j >= low; j--) {
+      state.at(n) = {high, j};
+      if (++n == end) n = 0;
+    }
+    for (int j{high - 1}; j > low; j--) {
+      state.at(n) = {j, low};
+      if (++n == end) n = 0;
+    }
+    low++;
+    high--;
+  }
+
+  final_state = std::move(state);
 }

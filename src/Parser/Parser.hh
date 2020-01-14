@@ -20,7 +20,7 @@ using std::regex, std::regex_replace;
 using std::stringstream;
 
 struct point {
-  uint8_t x, y;
+  int y, x;
 };
 
 class Parser {
@@ -39,10 +39,11 @@ private:
   auto check_solvability() -> bool;
   
   auto is_unique(vector<bool>& check, int n) -> bool;
+  auto construct_final_state() -> void;
   
   string file_data;
   int heuristics{0};
   int size{0};
   vector<vector<int>> first_state;
-  
+  vector<point> final_state;
 };
