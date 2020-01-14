@@ -12,12 +12,14 @@ FetchContent_Populate(piksel)
 add_subdirectory(${piksel_SOURCE_DIR} ${piksel_BINARY_DIR})
 
 set(SRC src/main.cc
+        src/Log/log.cc
         src/UI/UI.cc
         src/Parser/Parser.cc)
 
 add_executable(npuzzle ${SRC})
 
 target_include_directories(npuzzle
+    PUBLIC src/Log
     PUBLIC src/Parser
     PUBLIC src/UI
     PUBLIC build/_deps/piksel-src/src

@@ -1,15 +1,12 @@
 
-// #include "Parser.hh"
+#include "Parser.hh"
 #include "UI.hh"
 
-#include <iostream>
-
-using std::cout, std::endl;
-
-int	main()
+int	main(int ac, char **av)
 {
-	UI ui;
-	ui.start();
+	Parser parser{ac, av};
+	// UI ui;
+	// ui.start();
 
 	return 0;
 }
