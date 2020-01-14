@@ -18,7 +18,10 @@
   
   set of functions which can mutate state of taquin (optional):  
   - manualy choose one of the options  
-  
+    
+  
+  
+#### Dependencies:
+sudo apt-get install xorg-dev libglu1-mesa-dev libx11-dev  
 
-  
 
