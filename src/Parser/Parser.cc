@@ -40,6 +40,10 @@ auto Parser::get_first_state() -> vector<vector<int>> {
 
 // }
 
+auto Parser::get_heuristics_index() -> int {
+  return heuristics;
+}
+
 // .:: private
 
 auto Parser::parse_file(string filename) -> void {
