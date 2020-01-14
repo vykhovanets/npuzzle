@@ -28,5 +28,3 @@ target_include_directories(npuzzle
 target_link_libraries(npuzzle
     piksel
 )
-
-

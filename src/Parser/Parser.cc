@@ -36,12 +36,16 @@ auto Parser::get_first_state() -> vector<vector<int>> {
   return first_state;
 }
 
-// auto get_final_state() -> vector<point> {
-
-// }
+auto get_final_state() -> vector<point> {
+  
+}
 
 auto Parser::get_heuristics_index() -> int {
   return heuristics;
+}
+
+auto Parser::get_size() -> int {
+  return size;
 }
 
 // .:: private

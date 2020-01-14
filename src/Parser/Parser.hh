@@ -30,6 +30,7 @@ public:
   auto get_first_state() -> vector<vector<int>>;
   auto get_final_state() -> vector<point>;
   auto get_heuristics_index() -> int;
+  auto get_size() -> int;
 
 private:
   auto parse_file(string filename) -> void;
