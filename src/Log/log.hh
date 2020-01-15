@@ -1,10 +1,8 @@
-
 #pragma once
 
 #include <string>
-#include <iostream>
-
 #include <vector>
+#include <iostream>
 
 using std::cout, std::endl;
 using std::string, std::vector;

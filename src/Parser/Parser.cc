@@ -1,4 +1,3 @@
-
 #include "Parser.hh"
 
 Parser::Parser(int ac, char **av) {
@@ -33,6 +32,8 @@ Parser::Parser(int ac, char **av) {
 
   construct_final_state();
 }
+
+// .:: API
 
 auto Parser::get_first_state() -> vector<vector<int>> {
   return first_state;
