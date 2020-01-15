@@ -28,6 +28,7 @@ private:
   bool poll();
   void draw_state_box();
   void draw_info_box();
+  void display_text(const string& str, float x, float y,  int style = 0);
   
   RenderWindow win;
   Event event;

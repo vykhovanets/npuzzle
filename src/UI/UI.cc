@@ -13,6 +13,7 @@ UI::UI(visual_data data)
     win.setFramerateLimit(60);
     font.loadFromFile("data/CaviarDreams.ttf");
     text.setFont(font);
+    text.setCharacterSize(20);
 }
 
 void UI::start() {
@@ -24,8 +25,6 @@ void UI::start() {
     win.display();
   }
 }
-
-
 
 // .:: private
 
@@ -41,38 +40,33 @@ bool UI::poll() {
 
 void UI::draw_state_box() {
   
+  
 }
 
 void UI::draw_info_box() {
   text.setCharacterSize(20);
   text.setFillColor(Color::White);
-  text.setStyle(0);
   
-  // sum_opened:
   float y = info_box_spacing;
-  text.setPosition({info_box_x, y});
-  text.setString(string("Total number of states: ") + to_string(sum_opened));
-  win.draw(text);
+  display_text(string("Total number of states: ") + to_string(sum_opened), info_box_x, y);
   
   y += info_box_spacing;
-  text.setPosition({info_box_x, y});
-  text.setString(string("Maximum states in memory: ") + to_string(max_active));
-  win.draw(text);
+  display_text(string("Maximum states in memory: ") + to_string(max_active), info_box_x, y);
   
   y += info_box_spacing;
-  text.setPosition({info_box_x, y});
-  text.setString(string("Solution length: ") + to_string(states_size));
-  win.draw(text);
+  display_text(string("Solution length: ") + to_string(states_size), info_box_x, y);
   
   y += info_box_spacing;
-  text.setPosition({info_box_x, y});
-  text.setString(string("Current state: ") + to_string(current_state));
-  win.draw(text);
+  display_text(string("Current state: ") + to_string(current_state), info_box_x, y);
   
-  text.setStyle(Text::Bold);
   y += info_box_spacing * 2;
-  text.setPosition({info_box_x, y});
-  text.setString("Controls: use left and right arrows");
+  display_text("Controls: use left and right arrows", info_box_x, y, Text::Bold);
+}
+
+void UI::display_text(const string& str, float x, float y,  int style) {
+  text.setStyle(style);
+  text.setPosition({x, y});
+  text.setString(str);
   win.draw(text);
   text.setStyle(0);
 }
