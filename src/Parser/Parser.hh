@@ -11,12 +11,12 @@
 #include <cstdint>
 #include <sstream>
 #include <string>
-#include <vector>
+
 #include <regex>
 
 constexpr uint8_t max_heuristics{3};
 
-using std::vector, std::string;
+using std::string;
 using std::regex, std::regex_replace;
 using std::stringstream;
 

@@ -6,9 +6,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-#include <vector>
-
-using std::vector;
 using namespace sf;
 
 constexpr int width{740}, height{360};
