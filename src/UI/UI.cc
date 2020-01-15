@@ -26,9 +26,9 @@ UI::UI(visual_data data)
     
     shape.setSize({rect_size - 2, rect_size - 2});
     shape.setOrigin(rect_origin, rect_origin);
-    
-    
 }
+
+// .:: public
 
 void UI::start() {
   while (poll()) {
@@ -64,10 +64,11 @@ void UI::draw_state_box() {
 
 void UI::draw_rect(int i_x, int i_y, int num) {
   shape.setPosition(box_offset_x + rect_size * i_x, box_offset_y + rect_size * i_y);
-  shape.setFillColor(num != 0 ? Color::White : Color::Black);
+  shape.setFillColor(num != 0 ? Color::Red : Color::Black);
   
-  text.setCharacterSize(rect_size / 2);
-  text.setFillColor(Color::Black);
+  // a little ugliness here :)
+  text.setCharacterSize(rect_size / 3);
+  text.setFillColor(num != 0 ? Color::White : Color::Black);
   text.setString(to_string(num));
   text.setOrigin(rect_size / 4, rect_size / 4);
   text.setPosition(box_offset_x + rect_size * i_x, box_offset_y + rect_size * i_y);
