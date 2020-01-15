@@ -1,6 +1,7 @@
 #pragma once
 
 #include "log.hh"
+#include "common.hh"
 
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -18,10 +19,6 @@ constexpr uint8_t max_heuristics{3};
 using std::vector, std::string;
 using std::regex, std::regex_replace;
 using std::stringstream;
-
-struct point {
-  int y, x;
-};
 
 class Parser {
 public:

@@ -17,6 +17,7 @@ target_include_directories(npuzzle
     PUBLIC src/Log
     PUBLIC src/Parser
     PUBLIC src/UI
+    PUBLIC src/Common
 )
 
 target_link_libraries(npuzzle sfml-graphics sfml-audio)
