@@ -26,6 +26,8 @@ UI::UI(visual_data data)
     
     shape.setSize({rect_size - 2, rect_size - 2});
     shape.setOrigin(rect_origin, rect_origin);
+    
+    
 }
 
 void UI::start() {
@@ -62,8 +64,16 @@ void UI::draw_state_box() {
 
 void UI::draw_rect(int i_x, int i_y, int num) {
   shape.setPosition(box_offset_x + rect_size * i_x, box_offset_y + rect_size * i_y);
-  shape.setFillColor(Color::Red);
+  shape.setFillColor(num != 0 ? Color::White : Color::Black);
+  
+  text.setCharacterSize(rect_size / 2);
+  text.setFillColor(Color::Black);
+  text.setString(to_string(num));
+  text.setOrigin(rect_size / 4, rect_size / 4);
+  text.setPosition(box_offset_x + rect_size * i_x, box_offset_y + rect_size * i_y);
+  
   win.draw(shape);
+  win.draw(text);
 }
 
 void UI::draw_info() {
@@ -88,6 +98,7 @@ void UI::draw_info() {
 
 void UI::display_text(const string& str, float x, float y,  int style) {
   text.setStyle(style);
+  text.setOrigin(0, 0);
   text.setPosition({x, y});
   text.setString(str);
   win.draw(text);
