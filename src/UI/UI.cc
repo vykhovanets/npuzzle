@@ -3,26 +3,36 @@
 
 UI::UI(visual_data data)
   : win{{width, height}, "n-puzzle"}
-  , info_box_x(width - 380)
-  , info_box_spacing(30)
-  , state_box_offset_x(30)
-  , state_box_offset_y(30)
+  , info_x(width - 380)
+  , info_spacing(30)
+  , offset_x(30)
+  , offset_y(30)
+  , board_size_px(300)
   , sum_opened(data.sum_opened_elems)
   , max_active(data.max_active_elems)
   , states_size(data.states_size)
-  , state(std::move(data.state)) {
+  , board_size_elems(data.board_size)
+  , states(std::move(data.state)) {
     
     win.setFramerateLimit(60);
     font.loadFromFile("data/CaviarDreams.ttf");
     text.setFont(font);
     text.setCharacterSize(20);
+    
+    rect_size = board_size_px / board_size_elems;
+    rect_origin = rect_size / 2;
+    box_offset_x = offset_x + rect_origin;
+    box_offset_y = offset_y + rect_origin;
+    
+    shape.setSize({rect_size - 2, rect_size - 2});
+    shape.setOrigin(rect_origin, rect_origin);
 }
 
 void UI::start() {
   while (poll()) {
     win.clear(Color::Black);
     
-    draw_info_box();
+    draw_info();
     draw_state_box();
     win.display();
   }
@@ -41,39 +51,39 @@ bool UI::poll() {
 }
 
 void UI::draw_state_box() {
+  auto& state = states;  // current_state as an index in vector of states;
   
-  RectangleShape shape;
-  
-  float box_size = 300;
-  float origin = box_size / 2;
-  
-  shape.setPosition(state_box_offset_x + origin, state_box_offset_y + origin);
-  shape.setSize({box_size, box_size});
-  shape.setFillColor(Color::Red);
-  shape.setOrigin(origin, origin);
-  
-  win.draw(shape);
-  
+  for (int y{0}; y < board_size_elems; y++) {
+    for (int x{0}; x < board_size_elems; x++) {
+      draw_rect(x, y, state[y][x]);
+    }
+  }
 }
 
-void UI::draw_info_box() {
+void UI::draw_rect(int i_x, int i_y, int num) {
+  shape.setPosition(box_offset_x + rect_size * i_x, box_offset_y + rect_size * i_y);
+  shape.setFillColor(Color::Red);
+  win.draw(shape);
+}
+
+void UI::draw_info() {
   text.setCharacterSize(20);
   text.setFillColor(Color::White);
   
-  float y = info_box_spacing;
-  display_text(string("Total number of states: ") + to_string(sum_opened), info_box_x, y);
+  float y = info_spacing;
+  display_text(string("Total number of states: ") + to_string(sum_opened), info_x, y);
   
-  y += info_box_spacing;
-  display_text(string("Maximum states in memory: ") + to_string(max_active), info_box_x, y);
+  y += info_spacing;
+  display_text(string("Maximum states in memory: ") + to_string(max_active), info_x, y);
   
-  y += info_box_spacing;
-  display_text(string("Solution length: ") + to_string(states_size), info_box_x, y);
+  y += info_spacing;
+  display_text(string("Solution length: ") + to_string(states_size), info_x, y);
   
-  y += info_box_spacing;
-  display_text(string("Current state: ") + to_string(current_state), info_box_x, y);
+  y += info_spacing;
+  display_text(string("Current state: ") + to_string(current_state), info_x, y);
   
-  y += info_box_spacing * 2;
-  display_text("Controls: use left and right arrows", info_box_x, y, Text::Bold);
+  y += info_spacing * 2;
+  display_text("Controls: use left and right arrows", info_x, y, Text::Bold);
 }
 
 void UI::display_text(const string& str, float x, float y,  int style) {
