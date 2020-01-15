@@ -5,6 +5,8 @@ UI::UI(visual_data data)
   : win{{width, height}, "n-puzzle"}
   , info_box_x(width - 380)
   , info_box_spacing(30)
+  , state_box_offset_x(30)
+  , state_box_offset_y(30)
   , sum_opened(data.sum_opened_elems)
   , max_active(data.max_active_elems)
   , states_size(data.states_size)
@@ -40,6 +42,17 @@ bool UI::poll() {
 
 void UI::draw_state_box() {
   
+  RectangleShape shape;
+  
+  float box_size = 300;
+  float origin = box_size / 2;
+  
+  shape.setPosition(state_box_offset_x + origin, state_box_offset_y + origin);
+  shape.setSize({box_size, box_size});
+  shape.setFillColor(Color::Red);
+  shape.setOrigin(origin, origin);
+  
+  win.draw(shape);
   
 }
 

@@ -17,7 +17,7 @@ struct visual_data {
   vector<vector<int>> state; // should be a list or vector of states
 };
 
-constexpr int width{800}, height{600};
+constexpr int width{740}, height{360};
 
 class UI {
 public:
@@ -37,6 +37,9 @@ private:
   
   float info_box_x;
   float info_box_spacing;
+  
+  float state_box_offset_x;
+  float state_box_offset_y;
   
   int sum_opened;
   int max_active;
