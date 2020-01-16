@@ -17,6 +17,8 @@ public:
   
 private:
   bool poll();
+  void decrement_state();
+  void increment_state();
   void draw_state_box();
   void draw_info();
   void draw_rect(int i_x, int i_y, int num);

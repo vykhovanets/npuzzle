@@ -47,9 +47,23 @@ bool UI::poll() {
     if (event.type == Event::Closed or
        (event.type == Event::KeyPressed and event.key.code == Keyboard::Escape))
       return false;
+    else if (event.type == Event::KeyPressed and event.key.code == Keyboard::Left)
+      decrement_state();
+    else if (event.type == Event::KeyPressed and event.key.code == Keyboard::Right)
+      increment_state();
     break;    
   }
   return true;
+}
+
+void UI::decrement_state() {
+  if (current_state - 1 >= 0)
+    current_state--;
+}
+
+void UI::increment_state() {
+  if (current_state + 1 < states_size)
+    current_state++;
 }
 
 void UI::draw_state_box() {
