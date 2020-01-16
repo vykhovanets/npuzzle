@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 find_package(SFML 2.4 COMPONENTS graphics audio REQUIRED)
+execute_process(COMMAND cp ../data/CaviarDreams.ttf .)
 
 set(SRC src/main.cc
         src/Log/log.cc
