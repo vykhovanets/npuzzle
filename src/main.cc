@@ -10,12 +10,12 @@ int	main(int ac, char **av)
 	// algorithm -> visual_data
     auto first_state = parser.get_first_state();
 	visual_data data {
-		1234567891, 0, 1, parser.get_size(), parser.get_first_state() 
+		1234567891, 0, 4, parser.get_size(), parser.get_first_state() 
 	};
 
-    State::set_final_state(parser.get_final_state());
-    NPuzzleSolver::set_size(parser.get_size());
-    NPuzzleSolver::a_star_solver(parser.get_first_state());
+    // State::set_final_state(parser.get_final_state());
+    // NPuzzleSolver::set_size(parser.get_size());
+    // NPuzzleSolver::a_star_solver(parser.get_first_state());
 	
 	UI ui(data);
 	ui.start();
