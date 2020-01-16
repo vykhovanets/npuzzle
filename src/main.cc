@@ -15,7 +15,7 @@ int	main(int ac, char **av)
 
     State::set_final_state(parser.get_final_state());
     NPuzzleSolver::set_size(parser.get_size());
-    NPuzzleSolver::a_star_solver(first_state);
+    NPuzzleSolver::a_star_solver(parser.get_first_state());
 	
 	UI ui(data);
 	ui.start();
