@@ -15,6 +15,8 @@ class MyPriorQueue : public std::priority_queue<T, Container, Compare> {
             Container,
             Compare>::container_type::const_iterator const_iterator;
 
+        using std::priority_queue<T, Container, Compare>::priority_queue;
+
         const_iterator find(const T&val) const
         {
             auto first = this->c.cbegin();
