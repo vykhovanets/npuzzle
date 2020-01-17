@@ -19,6 +19,8 @@ class State {
 
         std::shared_ptr<State> get_parent() const;
 
+        void set_blank(const point &p);
+
         unsigned get_g() const;
 
         double get_h() const;
@@ -30,6 +32,8 @@ class State {
         void dump_state() const;
 
         static void set_final_state(std::vector<point> fs);
+
+        void update_heuristics();
 
     private:
         double manhattan_distance() const;

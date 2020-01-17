@@ -4,23 +4,21 @@
 
 State::State(const Snapshot& data, std::shared_ptr<State> parent, const point& blank)
 : parent_(parent), data_(data), blank_(blank) {
-    if (parent) {
-        g_ = parent->get_g() + 1;
-    } else {
-        g_ = 0;
-    }
-    h_ = manhattan_distance();
-    f_ = g_ + h_;
+    update_heuristics(); //TODO: replace
 }
 
 void State::set_parent(std::shared_ptr<State> new_parent) {
     parent_ = new_parent;
-    g_ = new_parent->get_g() + 1;
-    f_ = h_ + g_;
+    update_heuristics();
 }
 
 std::vector<int>& State::operator[](int pos) {
     return data_[pos];
+}
+
+//TODO: i'm so ugly
+void State::set_blank(const point& p) {
+    blank_ = p;
 }
 
 point State::get_blank_pos() const {
@@ -45,6 +43,16 @@ double State::get_f() const {
 
 const Snapshot& State::get_snap() const {
     return data_;
+}
+
+void State::update_heuristics() {
+    if (parent_) {
+        g_ = parent_->get_g() + 1;
+    } else {
+        g_ = 0;
+    }
+    h_ = manhattan_distance();
+    f_ = g_ + h_;
 }
 
 void State::dump_state() const {
