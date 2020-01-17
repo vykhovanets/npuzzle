@@ -84,7 +84,7 @@ double State::manhattan_distance() const {
             }
         }
     }
-    return mark;
+    return 2 * mark;
 }
 
 std::vector<point> State::final_state_ = {};
