@@ -16,7 +16,7 @@ std::vector<std::shared_ptr<State>> NPuzzleSolver::gen_neighbours(
     std::vector<std::shared_ptr<State>> neighbours;
     auto const& bpos = state->get_blank_pos();
 
-    if ((bpos.x + 1 <= size) && !(bpos.x + 1 == pre.x && bpos.y == pre.y)) {
+    if ((bpos.x + 1 < size) && !(bpos.x + 1 == pre.x && bpos.y == pre.y)) {
         State next(*state);
         next.set_parent(state);
         std::swap(next[bpos.y][bpos.x + 1], next[bpos.y][bpos.x]);
@@ -46,7 +46,7 @@ std::vector<std::shared_ptr<State>> NPuzzleSolver::gen_neighbours(
         next.dump_state();
         neighbours.push_back(std::make_shared<State>(std::move(next)));
     }
-    if ((bpos.y + 1 <= size) && !(bpos.y + 1 == pre.y && bpos.x == pre.x)) {
+    if ((bpos.y + 1 < size) && !(bpos.y + 1 == pre.y && bpos.x == pre.x)) {
         State next(*state);
         next.set_parent(state);
         std::swap(next[bpos.y + 1][bpos.x], next[bpos.y][bpos.x]);
