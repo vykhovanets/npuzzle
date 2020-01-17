@@ -131,7 +131,7 @@ void NPuzzleSolver::a_star_solver(Snapshot initial) {
     //TODO: figure out the end condition
     while (true) {
         // prioritized by f
-        auto const& cur = open.top();
+        auto cur = open.top();
         open.pop();
         if (!cur->get_f()) {
             // we are done
@@ -139,7 +139,7 @@ void NPuzzleSolver::a_star_solver(Snapshot initial) {
         }
         else {
             closed.insert(cur);
-            auto const& neighbours = gen_neighbours(cur);
+            auto neighbours = gen_neighbours(cur);
             for (auto const &neighbour : neighbours) {
                 if ((neighbour->get_g() < cur->get_g()) && std::find(std::begin(closed), std::end(closed), neighbour) != std::end(closed)) {
                     neighbour->set_parent(cur);
