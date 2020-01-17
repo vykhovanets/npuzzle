@@ -56,12 +56,17 @@ void State::update_heuristics() {
 }
 
 void State::dump_state() const {
+    std::cout << "--------------" << std::endl;
+    std::cout << "h = " << h_ << std::endl;
+    std::cout << "g = " << g_ << std::endl;
+    std::cout << "f = " << f_ << std::endl;
     for (auto const& row : data_) {
         for (auto const& el : row) {
             std::cout << el << " ";
         }
         std::cout << std::endl;
     }
+    std::cout << "--------------" << std::endl;
 }
 
 void State::set_final_state(std::vector<point> fs) {
