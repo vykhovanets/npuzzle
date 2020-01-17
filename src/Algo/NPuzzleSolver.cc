@@ -133,7 +133,7 @@ void NPuzzleSolver::a_star_solver(Snapshot initial) {
         // prioritized by f
         auto cur = open.top();
         open.pop();
-        if (!cur->get_f()) {
+        if (!cur->get_h()) {
             // we are done
             break;
         }
