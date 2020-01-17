@@ -55,6 +55,17 @@ int NPuzzleSolver::get_size() {
     return NPuzzleSolver::size;
 }
 
+//TODO: =(
+static point zero_finder(Snapshot snap) {
+    for (int y{0}; y < snap.size(); ++y) {
+        for (int x{0}; x < snap[y].size(); ++x) {
+            if (snap[y][x] == 0) {
+                return {.y=y, .x=x};
+            }
+        }
+    }
+}
+
 /*
    make an openlist containing only the starting node
    make an empty closed list
@@ -77,7 +88,7 @@ int NPuzzleSolver::get_size() {
 */
 
 void NPuzzleSolver::a_star_solver(Snapshot initial) {
-    std::shared_ptr<State> start_state = std::make_shared<State>(initial, nullptr, point{2, 2});
+    std::shared_ptr<State> start_state = std::make_shared<State>(initial, nullptr, zero_finder(initial));
     auto comparator = [](auto lhs,auto rhs) { return lhs->get_f() > rhs->get_f(); };
     MyPriorQueue<std::shared_ptr<State>,std::vector<std::shared_ptr<State>>,decltype(comparator)> open(comparator);
     std::vector<std::shared_ptr<State>> closed;
