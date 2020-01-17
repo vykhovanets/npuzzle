@@ -72,8 +72,11 @@ double State::manhattan_distance() const {
     unsigned mark = 0;
     for (int y = 0; y < data_.size(); ++y) {
         for (int x = 0; x < data_[y].size(); ++x) {
-            auto const& final_num_pos = State::final_state_[data_[y][x]];
-            mark += std::abs(y - final_num_pos.y) + std::abs(x - final_num_pos.x);
+            // ignore zero
+            if (data_[y][x]) {
+                auto const& final_num_pos = State::final_state_[data_[y][x]];
+                mark += std::abs(y - final_num_pos.y) + std::abs(x - final_num_pos.x);
+            }
         }
     }
     return mark;
