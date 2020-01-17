@@ -15,7 +15,8 @@ UI::UI(visual_data data)
   , states{std::move(data.state)} {
     
     win.setFramerateLimit(60);
-    font.loadFromFile("data/CaviarDreams.ttf");
+    if (!font.loadFromFile("data/CaviarDreams.ttf"))
+      font.loadFromFile("CaviarDreams.ttf");
     text.setFont(font);
     text.setCharacterSize(20);
     
