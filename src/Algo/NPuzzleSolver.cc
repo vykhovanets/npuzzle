@@ -120,22 +120,41 @@ static point zero_finder(Snapshot snap) {
                    add it to the open list and set its g
 */
 
-void NPuzzleSolver::a_star_solver(Snapshot initial) {
+visual_data NPuzzleSolver::convert_output(std::shared_ptr<State> last, int tc, int sc) {
+    std::vector<Snapshot> result;
+    result.push_back(last->get_snap());
+    std::shared_ptr<State> runner = last;
+    while (auto parent = runner->get_parent()) {
+        result.insert(result.begin(), parent->get_snap());
+        runner = parent;
+    }
+    return {tc, sc, result.size(), last->get_snap().size(),result};
+}
+
+visual_data NPuzzleSolver::a_star_solver(Snapshot initial) {
     std::shared_ptr<State> start_state = std::make_shared<State>(initial, nullptr, zero_finder(initial));
     auto comparator = [](auto lhs,auto rhs) { return lhs->get_f() > rhs->get_f(); };
     MyPriorQueue<std::shared_ptr<State>,std::vector<std::shared_ptr<State>>,decltype(comparator)> open(comparator);
     std::set<std::shared_ptr<State>> closed;
+    int time_complexity = 0;
+    int size_complexity = 0;
 
     open.push(start_state);
+    ++time_complexity;
+    ++size_complexity;
 
     //TODO: figure out the end condition
     while (true) {
+        auto total_size = open.size() + closed.size();
+        if (total_size > size_complexity) {
+            size_complexity = total_size;
+        }
         // prioritized by f
         auto cur = open.top();
         open.pop();
         if (!cur->get_h()) {
             // we are done
-            break;
+            return NPuzzleSolver::convert_output(cur, time_complexity, size_complexity);
         }
         else {
             closed.insert(cur);
@@ -147,6 +166,7 @@ void NPuzzleSolver::a_star_solver(Snapshot initial) {
                     neighbour->set_parent(cur);
                 } else if (open.find(neighbour) == open.end() && std::find(std::begin(closed), std::end(closed), neighbour) == std::end(closed)) {
                     open.push(neighbour);
+                    ++time_complexity;
                     // TODO: set it's g
                 }
             }

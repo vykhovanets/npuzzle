@@ -11,8 +11,8 @@ UI::UI(visual_data data)
   , sum_opened{data.sum_opened_elems}
   , max_active{data.max_active_elems}
   , states_size{data.states_size}
-  , board_size_elems{data.board_size}
-  , states{std::move(data.state)} {
+  , board_size_elems{data.board_size}{
+  //, states{std::move(data.state)}
     
     win.setFramerateLimit(60);
     if (!font.loadFromFile("data/CaviarDreams.ttf"))
@@ -68,13 +68,15 @@ void UI::increment_state() {
 }
 
 void UI::draw_state_box() {
-  auto& state = states;  // TODO: current_state as an index in vector of states;
+    /*
+  //auto& state = states;  // TODO: current_state as an index in vector of states;
   
   for (int y{0}; y < board_size_elems; y++) {
     for (int x{0}; x < board_size_elems; x++) {
       draw_rect(x, y, state[y][x]);
     }
   }
+  */
 }
 
 void UI::draw_rect(int i_x, int i_y, int num) {

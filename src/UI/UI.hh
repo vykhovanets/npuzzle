@@ -46,7 +46,7 @@ private:
   int max_active;
   int states_size;
   int board_size_elems;
-  vector<vector<int>> states;
+  //vector<vector<int>> states;
   
   int current_state{0};
 };

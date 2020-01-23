@@ -13,5 +13,5 @@ struct visual_data {
   int max_active_elems{0};   // complexity in size
   int states_size{0};        // number of states in a solution
   int board_size{0};
-  vector<vector<int>> state; // should be a list or vector of states
+  vector<vector<vector<int>>> state; // should be a list or vector of states
 };
