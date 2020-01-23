@@ -11,22 +11,22 @@ UI::UI(visual_data data)
   , sum_opened{data.sum_opened_elems}
   , max_active{data.max_active_elems}
   , states_size{data.states_size}
-  , board_size_elems{data.board_size}{
-  //, states{std::move(data.state)}
-    
-    win.setFramerateLimit(60);
-    if (!font.loadFromFile("data/CaviarDreams.ttf"))
-      font.loadFromFile("CaviarDreams.ttf");
-    text.setFont(font);
-    text.setCharacterSize(20);
-    
-    rect_size = board_size_px / board_size_elems;
-    rect_origin = rect_size / 2;
-    box_offset_x = offset_x + rect_origin;
-    box_offset_y = offset_y + rect_origin;
-    
-    shape.setSize({rect_size - 2, rect_size - 2});
-    shape.setOrigin(rect_origin, rect_origin);
+  , board_size_elems{data.board_size}
+  , states{std::move(data.state)} {
+
+  win.setFramerateLimit(60);
+  if (!font.loadFromFile("data/CaviarDreams.ttf"))
+    font.loadFromFile("CaviarDreams.ttf");
+  text.setFont(font);
+  text.setCharacterSize(20);
+
+  rect_size = board_size_px / board_size_elems;
+  rect_origin = rect_size / 2;
+  box_offset_x = offset_x + rect_origin;
+  box_offset_y = offset_y + rect_origin;
+
+  shape.setSize({rect_size - 2, rect_size - 2});
+  shape.setOrigin(rect_origin, rect_origin);
 }
 
 // .:: public
@@ -34,7 +34,7 @@ UI::UI(visual_data data)
 void UI::start() {
   while (poll()) {
     win.clear(Color::Black);
-    
+
     draw_info();
     draw_state_box();
     win.display();
@@ -68,28 +68,27 @@ void UI::increment_state() {
 }
 
 void UI::draw_state_box() {
-    /*
-  //auto& state = states;  // TODO: current_state as an index in vector of states;
-  
+  auto& state = states.at(current_state);
+
   for (int y{0}; y < board_size_elems; y++) {
     for (int x{0}; x < board_size_elems; x++) {
       draw_rect(x, y, state[y][x]);
     }
   }
-  */
+
 }
 
 void UI::draw_rect(int i_x, int i_y, int num) {
   shape.setPosition(box_offset_x + rect_size * i_x, box_offset_y + rect_size * i_y);
   shape.setFillColor(num != 0 ? Color::Red : Color::Black);
-  
+
   // a little ugliness here :)
   text.setCharacterSize(rect_size / 3);
   text.setFillColor(num != 0 ? Color::White : Color::Black);
   text.setString(to_string(num));
   text.setOrigin(rect_size / 4, rect_size / 4);
   text.setPosition(box_offset_x + rect_size * i_x, box_offset_y + rect_size * i_y);
-  
+
   win.draw(shape);
   win.draw(text);
 }
@@ -97,19 +96,19 @@ void UI::draw_rect(int i_x, int i_y, int num) {
 void UI::draw_info() {
   text.setCharacterSize(20);
   text.setFillColor(Color::White);
-  
+
   float y = info_spacing;
   display_text(string("Total number of states: ") + to_string(sum_opened), info_x, y);
-  
+
   y += info_spacing;
   display_text(string("Maximum states in memory: ") + to_string(max_active), info_x, y);
-  
+
   y += info_spacing;
   display_text(string("Solution length: ") + to_string(states_size), info_x, y);
-  
+
   y += info_spacing;
   display_text(string("Current state: ") + to_string(current_state), info_x, y);
-  
+
   y += info_spacing * 2;
   display_text("Controls: use left and right arrows", info_x, y, Text::Bold);
 }

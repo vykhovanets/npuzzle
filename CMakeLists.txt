@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.10.2)
 project(npuzzle)
 set(CMAKE_CXX_STANDARD 17)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -11,7 +11,6 @@ set(SRC src/main.cc
         src/Log/log.cc
         src/UI/UI.cc
         src/Parser/Parser.cc
-        
         src/Algo/NPuzzleSolver.cc
         src/Algo/State.cc)
 
