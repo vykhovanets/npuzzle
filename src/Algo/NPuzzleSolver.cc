@@ -3,9 +3,6 @@
 #include <set>
 #include "MyPriorQueue.hh"
 
-// TODO: i need to see the parent, to ignore repeating the states
-// or not ?
-// if it's already in the closed queue, then no
 std::vector<std::shared_ptr<State>> NPuzzleSolver::gen_neighbours(
         const std::shared_ptr<State>& state) {
     int size = state->get_snap().size();
@@ -48,7 +45,6 @@ std::vector<std::shared_ptr<State>> NPuzzleSolver::gen_neighbours(
     return neighbours;
 }
 
-//TODO: =(
 static point zero_finder(Snapshot snap) {
     for (int y{0}; y < snap.size(); ++y) {
         for (int x{0}; x < snap[y].size(); ++x) {
@@ -103,7 +99,6 @@ visual_data NPuzzleSolver::a_star_solver(const Snapshot& initial) {
     ++time_complexity;
     ++size_complexity;
 
-    //TODO: figure out the end condition
     auto find_in_closed = [&closed](const auto& neighbour) { return std::find(std::begin(closed), std::end(closed), neighbour) != std::end(closed); };
     auto find_in_opened = [&open](const auto& neighbour) { return open.find(neighbour) != open.end(); };
 
@@ -112,11 +107,9 @@ visual_data NPuzzleSolver::a_star_solver(const Snapshot& initial) {
         if (total_size > size_complexity) {
             size_complexity = total_size;
         }
-        // prioritized by f
         auto cur = open.top();
         open.pop();
         if (!cur->get_h()) {
-            // we are done
             return NPuzzleSolver::convert_output(cur, time_complexity, size_complexity);
         }
         else {
@@ -130,7 +123,6 @@ visual_data NPuzzleSolver::a_star_solver(const Snapshot& initial) {
                 } else if (!find_in_opened(neighbour) && !find_in_closed(neighbour)) {
                     open.push(neighbour);
                     ++time_complexity;
-                    // TODO: set it's g
                 }
             }
         }
