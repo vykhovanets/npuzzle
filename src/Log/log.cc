@@ -5,9 +5,9 @@ namespace {
   const string usage{
       "Usage: ./n-puzzle [filename with n-puzzle] [heuristics fun number]\n"
       "possible heuristics:\n"
-      "  1. \n"
-      "  2. \n"
-      "  3. \n"
+      "  1. Manhattan\n"
+      "  2. Hamming\n"
+      "  3. Euclidean\n"
   };
 
   const string format{
