@@ -32,6 +32,7 @@ class State {
         void dump_state() const;
 
         static void set_final_state(std::vector<point> fs);
+        static void set_heuristics(Heuristic h);
 
         void update_heuristics();
 
@@ -39,6 +40,9 @@ class State {
 
     private:
         double manhattan_distance() const;
+        double hamming_distance() const;
+        //double diagonal_distance() const;
+        double euclidean_distance() const;
         std::shared_ptr<State> parent_;
         Snapshot data_;
         point blank_;
@@ -46,5 +50,8 @@ class State {
         double f_;
         double h_;
         static std::vector<point> final_state_;
+        static Heuristic heuristics_type_;
+        typedef double(State::*HFunc) () const;
+        HFunc heuristic_;
 };
 

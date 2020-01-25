@@ -5,6 +5,19 @@
 
 State::State(const Snapshot& data, std::shared_ptr<State> parent, const point& blank)
 : parent_(parent), data_(data), blank_(blank) {
+    switch(State::heuristics_type_) {
+        case Heuristic::MANHATTAN:
+            heuristic_ = &State::manhattan_distance;
+            break;
+        case Heuristic::HAMMING:
+            heuristic_ = &State::hamming_distance;
+            break;
+        case Heuristic::EUCLIDEAN:
+            heuristic_ = &State::euclidean_distance;
+            break;
+        default:
+            std::logic_error("Unsupported heuristic");
+    }
     update_heuristics(); //TODO: replace
 }
 
@@ -65,7 +78,7 @@ void State::update_heuristics() {
     } else {
         g_ = 0;
     }
-    h_ = manhattan_distance();
+    h_ = (this->*heuristic_)();
     f_ = g_ + h_;
 }
 
@@ -87,6 +100,47 @@ void State::set_final_state(std::vector<point> fs) {
     State::final_state_ = fs;
 }
 
+void State::set_heuristics(Heuristic h) {
+    State::heuristics_type_ = h;
+}
+
+double State::euclidean_distance() const {
+    unsigned mark = 0;
+    double d{1};
+    for (int y = 0; y < data_.size(); ++y) {
+        for (int x = 0; x < data_[y].size(); ++x) {
+            // ignore zero
+            if (data_[y][x]) {
+                auto const& final_num_pos = State::final_state_[data_[y][x]];
+                int dx = std::abs(x - final_num_pos.x);
+                int dy = std::abs(y - final_num_pos.y);
+                mark += std::sqrt(dx * dx + dy * dy);
+            }
+        }
+    }
+    return d * mark;
+}
+
+/*
+double State::diagonal_distance() const {
+    unsigned mark = 0;
+    double d1{1};
+    double d2{std::sqrt(2)};
+    for (int y = 0; y < data_.size(); ++y) {
+        for (int x = 0; x < data_[y].size(); ++x) {
+            // ignore zero
+            if (data_[y][x]) {
+                auto const& final_num_pos = State::final_state_[data_[y][x]];
+                int dx = std::abs(x - final_num_pos.x);
+                int dy = std::abs(y - final_num_pos.y);
+                mark += d2 * (dx + dy) + (d2 - 2 * d1) * std::min(dx, dy);
+            }
+        }
+    }
+    return mark;
+}
+*/
+
 double State::manhattan_distance() const {
     unsigned mark = 0;
     for (int y = 0; y < data_.size(); ++y) {
@@ -101,4 +155,21 @@ double State::manhattan_distance() const {
     return 2 * mark;
 }
 
+double State::hamming_distance() const {
+    unsigned mark{0};
+    for (int y = 0; y < data_.size(); ++y) {
+        for (int x = 0; x < data_[y].size(); ++x) {
+            // ignore zero
+            if (data_[y][x]) {
+                auto const& final_num_pos = State::final_state_[data_[y][x]];
+                if ((final_num_pos.y != y) || (final_num_pos.x != x)) {
+                    ++mark;
+                }
+            }
+        }
+    }
+    return 2 * mark;
+}
+
 std::vector<point> State::final_state_ = {};
+Heuristic State::heuristics_type_ = Heuristic::MANHATTAN;
