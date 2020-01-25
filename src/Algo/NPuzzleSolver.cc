@@ -53,6 +53,7 @@ static point zero_finder(Snapshot snap) {
             }
         }
     }
+    throw std::logic_error("Zero isn't found in a state");
 }
 
 /*
@@ -84,7 +85,7 @@ visual_data NPuzzleSolver::convert_output(std::shared_ptr<State> last, int tc, i
         result.insert(result.begin(), parent->get_snap());
         runner = parent;
     }
-    return {tc, sc, result.size(), last->get_snap().size(),result};
+    return {tc, sc, static_cast<int>(result.size()), static_cast<int>(last->get_snap().size()),result};
 }
 
 visual_data NPuzzleSolver::a_star_solver(const Snapshot& initial) {
