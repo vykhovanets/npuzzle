@@ -91,19 +91,22 @@ visual_data NPuzzleSolver::convert_output(std::shared_ptr<State> last, int tc, i
     return {tc, sc, result.size(), last->get_snap().size(),result};
 }
 
-visual_data NPuzzleSolver::a_star_solver(Snapshot initial) {
+visual_data NPuzzleSolver::a_star_solver(const Snapshot& initial) {
     std::shared_ptr<State> start_state = std::make_shared<State>(initial, nullptr, zero_finder(initial));
     auto comparator = [](auto lhs,auto rhs) { return lhs->get_f() > rhs->get_f(); };
     MyPriorQueue<std::shared_ptr<State>,std::vector<std::shared_ptr<State>>,decltype(comparator)> open(comparator);
     std::set<std::shared_ptr<State>> closed;
-    int time_complexity = 0;
-    int size_complexity = 0;
+    int time_complexity{0};
+    int size_complexity{0};
 
     open.push(start_state);
     ++time_complexity;
     ++size_complexity;
 
     //TODO: figure out the end condition
+    auto find_in_closed = [&closed](const auto& neighbour) { return std::find(std::begin(closed), std::end(closed), neighbour) != std::end(closed); };
+    auto find_in_opened = [&open](const auto& neighbour) { return open.find(neighbour) != open.end(); };
+
     while (true) {
         auto total_size = open.size() + closed.size();
         if (total_size > size_complexity) {
@@ -120,11 +123,11 @@ visual_data NPuzzleSolver::a_star_solver(Snapshot initial) {
             closed.insert(cur);
             auto neighbours = gen_neighbours(cur);
             for (auto const &neighbour : neighbours) {
-                if ((neighbour->get_g() < cur->get_g()) && std::find(std::begin(closed), std::end(closed), neighbour) != std::end(closed)) {
+                if ((neighbour->get_g() < cur->get_g()) && find_in_closed(neighbour)) {
                     neighbour->set_parent(cur);
-                } else if ((neighbour->get_g() > cur->get_g()) && open.find(neighbour) != open.end()) {
+                } else if ((neighbour->get_g() > cur->get_g()) && find_in_opened(neighbour)) {
                     neighbour->set_parent(cur);
-                } else if (open.find(neighbour) == open.end() && std::find(std::begin(closed), std::end(closed), neighbour) == std::end(closed)) {
+                } else if (!find_in_opened(neighbour) && !find_in_closed(neighbour)) {
                     open.push(neighbour);
                     ++time_complexity;
                     // TODO: set it's g
