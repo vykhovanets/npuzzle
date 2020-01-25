@@ -8,7 +8,7 @@
 // if it's already in the closed queue, then no
 std::vector<std::shared_ptr<State>> NPuzzleSolver::gen_neighbours(
         const std::shared_ptr<State>& state) {
-    int size = NPuzzleSolver::size;
+    int size = state->get_snap().size();
     const auto& parent = state->get_parent();
     point pre{-1, -1};
     if (parent) {
@@ -46,14 +46,6 @@ std::vector<std::shared_ptr<State>> NPuzzleSolver::gen_neighbours(
         neighbours.push_back(std::make_shared<State>(std::move(next)));
     }
     return neighbours;
-}
-
-void NPuzzleSolver::set_size(int size) {
-    NPuzzleSolver::size = size;
-}
-
-int NPuzzleSolver::get_size() {
-    return NPuzzleSolver::size;
 }
 
 //TODO: =(
@@ -141,5 +133,3 @@ visual_data NPuzzleSolver::a_star_solver(Snapshot initial) {
         }
     }
 }
-
-int NPuzzleSolver::size = 0;
