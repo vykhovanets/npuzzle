@@ -32,3 +32,10 @@ void print_2D(vector<vector<int>> &state) {
     cout << endl;
   }
 }
+
+void print_1D(vector<int> &state) {
+  println("state:");
+    for (auto& elem : state)
+      cout << elem << " ";
+    cout << endl;
+}

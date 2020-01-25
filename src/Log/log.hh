@@ -12,3 +12,4 @@ void println(string message);
 void print_usage();
 void print_format();
 void print_2D(vector<vector<int>>& state);
+void print_1D(vector<int>& state);

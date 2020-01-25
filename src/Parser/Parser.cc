@@ -1,5 +1,7 @@
 #include "Parser.hh"
 
+
+
 Parser::Parser(int ac, char **av) {
   if (ac != 3) {
     print_usage();
@@ -25,12 +27,14 @@ Parser::Parser(int ac, char **av) {
     exit(1);
   }
 
+  construct_final_state();
+
   if (!check_solvability()) {
     println("Parser: this n-puzzle is unsolvable.");
     exit(1);
   }
 
-  construct_final_state();
+  
 }
 
 // .:: API
@@ -77,6 +81,8 @@ auto Parser::parse_heuristics(string h) -> void {
   }
 }
 
+// .:: syntax errors
+
 auto Parser::check_correctness() -> bool {
   file_data = regex_replace(file_data, regex("#.*\n"), "\n");
 
@@ -110,8 +116,43 @@ auto Parser::check_correctness() -> bool {
   return true;
 }
 
+// .:: solvability errors
+
 auto Parser::check_solvability() -> bool {
-  return true;
+  auto input{first_to_snail()};
+  auto length{input.size()};
+  int invs_num{0};
+
+  for (int i{0}; i < length; i++)
+    for (int j{i+1}; j < length; j++)
+      if (input[i] && input[j] && input[i] > input[j])
+        invs_num++;
+
+  return invs_num % 2 == 0;
+}
+
+// .:: helpers
+
+auto Parser::first_to_snail() -> vector<int> {
+  vector<int> snail;
+
+  int count{(size + 1) / 2};
+  int low{0}, high{size - 1};
+  
+  for (int i{0}; i < count; i++) {
+    for (int j{low}; j < high + 1; j++)
+      snail.push_back(first_state[i][j]);
+    for (int j{low + 1}; j < high + 1; j++)
+      snail.push_back(first_state[j][high]);
+    for (int j{high-1}; j >= low; j--)
+      snail.push_back(first_state[high][j]);
+    for (int j{high-1}; j > low; j--)
+      snail.push_back(first_state[j][low]);
+    low++;
+    high--;
+  }
+
+  return snail;
 }
 
 auto Parser::is_unique(vector<bool> &check, int n) -> bool {
@@ -121,6 +162,8 @@ auto Parser::is_unique(vector<bool> &check, int n) -> bool {
   } else
     return false;
 }
+
+// .:: final_state
 
 auto Parser::construct_final_state() -> void {
   

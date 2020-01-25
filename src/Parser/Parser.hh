@@ -35,7 +35,12 @@ private:
   auto check_correctness() -> bool;
   auto check_solvability() -> bool;
   
+  // solvability helpers
+  auto first_to_snail() -> vector<int>;
+
+  // correctness helper
   auto is_unique(vector<bool>& check, int n) -> bool;
+  
   auto construct_final_state() -> void;
   
   string file_data;
