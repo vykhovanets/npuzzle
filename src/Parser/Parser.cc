@@ -82,7 +82,7 @@ auto Parser::parse_heuristics(string h) -> void {
             heuristics = Heuristic::HAMMING;
             break;
         case 3:
-            heuristics = Heuristic::HAMMING;
+            heuristics = Heuristic::EUCLIDEAN;
             break;
         default:
             break;
