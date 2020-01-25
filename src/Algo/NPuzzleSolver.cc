@@ -20,60 +20,28 @@ std::vector<std::shared_ptr<State>> NPuzzleSolver::gen_neighbours(
     if ((bpos.x + 1 < size) && !(bpos.x + 1 == pre.x && bpos.y == pre.y)) {
         State next(*state);
         next.set_parent(state);
-        std::swap(next[bpos.y][bpos.x + 1], next[bpos.y][bpos.x]);
-        // TODO: ugly
-        auto const& old_blank = next.get_blank_pos();
-        point new_blank;
-        new_blank.y = old_blank.y;
-        new_blank.x = old_blank.x + 1;
-        next.set_blank(new_blank);
-        next.update_heuristics();
-
+        next.swap_elems({bpos.y, bpos.x + 1}, {bpos.y, bpos.x});
         next.dump_state();
         neighbours.push_back(std::make_shared<State>(std::move(next)));
     }
     if ((bpos.x - 1 >= 0) && !(bpos.x - 1 == pre.x && bpos.y == pre.y)) {
         State next(*state);
         next.set_parent(state);
-        std::swap(next[bpos.y][bpos.x - 1], next[bpos.y][bpos.x]);
-        // TODO: ugly
-        auto const& old_blank = next.get_blank_pos();
-        point new_blank;
-        new_blank.y = old_blank.y;
-        new_blank.x = old_blank.x - 1;
-        next.set_blank(new_blank);
-        next.update_heuristics();
-
+        next.swap_elems({bpos.y, bpos.x - 1}, {bpos.y, bpos.x});
         next.dump_state();
         neighbours.push_back(std::make_shared<State>(std::move(next)));
     }
     if ((bpos.y + 1 < size) && !(bpos.y + 1 == pre.y && bpos.x == pre.x)) {
         State next(*state);
         next.set_parent(state);
-        std::swap(next[bpos.y + 1][bpos.x], next[bpos.y][bpos.x]);
-        // TODO: ugly
-        auto const& old_blank = next.get_blank_pos();
-        point new_blank;
-        new_blank.y = old_blank.y + 1;
-        new_blank.x = old_blank.x;
-        next.set_blank(new_blank);
-        next.update_heuristics();
-
+        next.swap_elems({bpos.y + 1, bpos.x}, {bpos.y, bpos.x});
         next.dump_state();
         neighbours.push_back(std::make_shared<State>(std::move(next)));
     }
     if ((bpos.y - 1 >= 0) && !(bpos.y - 1 == pre.y && bpos.x == pre.x)) {
         State next(*state);
         next.set_parent(state);
-        std::swap(next[bpos.y - 1][bpos.x], next[bpos.y][bpos.x]);
-        // TODO: ugly
-        auto const& old_blank = next.get_blank_pos();
-        point new_blank;
-        new_blank.y = old_blank.y - 1;
-        new_blank.x = old_blank.x;
-        next.set_blank(new_blank);
-        next.update_heuristics();
-
+        next.swap_elems({bpos.y - 1, bpos.x}, {bpos.y, bpos.x});
         next.dump_state();
         neighbours.push_back(std::make_shared<State>(std::move(next)));
     }

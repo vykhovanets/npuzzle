@@ -1,6 +1,7 @@
 #include "State.hh"
 #include <cmath>
 #include <iostream>
+#include <exception>
 
 State::State(const Snapshot& data, std::shared_ptr<State> parent, const point& blank)
 : parent_(parent), data_(data), blank_(blank) {
@@ -16,9 +17,18 @@ std::vector<int>& State::operator[](int pos) {
     return data_[pos];
 }
 
-//TODO: i'm so ugly
-void State::set_blank(const point& p) {
-    blank_ = p;
+void State::swap_elems(const point& p1, const point& p2) {
+    if (data_[p1.y][p1.x] == 0) {
+        blank_.y = p2.y;
+        blank_.x = p2.x;
+    } else if (data_[p2.y][p2.x] == 0) {
+        blank_.y = p1.y;
+        blank_.x = p1.x;
+    } else {
+        throw std::logic_error("Invalid swap, invalid game move");
+    }
+    std::swap(data_[p1.y][p1.x], data_[p2.y][p2.x]);
+    update_heuristics();
 }
 
 point State::get_blank_pos() const {
