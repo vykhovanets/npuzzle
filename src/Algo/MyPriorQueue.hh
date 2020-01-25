@@ -17,12 +17,13 @@ class MyPriorQueue : public std::priority_queue<T, Container, Compare> {
 
         using std::priority_queue<T, Container, Compare>::priority_queue;
 
-        const_iterator find(const T&val) const
+        template<class Comparator>
+        const_iterator find_if(const Comparator comp) const
         {
             auto first = this->c.cbegin();
             auto last = this->c.cend();
             while (first!=last) {
-                if (*first==val) return first;
+                if (comp(*first)) return first;
                 ++first;
             }
             return last;

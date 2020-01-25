@@ -8,6 +8,10 @@ State::State(const Snapshot& data, std::shared_ptr<State> parent, const point& b
     update_heuristics(); //TODO: replace
 }
 
+bool State::operator==(const State& s2) const {
+    return data_ == s2.data_;
+}
+
 void State::set_parent(std::shared_ptr<State> new_parent) {
     parent_ = new_parent;
     update_heuristics();

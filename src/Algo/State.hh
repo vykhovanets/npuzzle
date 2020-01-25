@@ -11,6 +11,8 @@ class State {
     public:
         State(const Snapshot& data, std::shared_ptr<State> parent, const point& blank);
 
+        bool operator==(const State& s2) const;
+
         void set_parent(std::shared_ptr<State> new_parent);
 
         std::vector<int>& operator[](int pos);
