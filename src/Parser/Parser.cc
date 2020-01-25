@@ -15,7 +15,7 @@ Parser::Parser(int ac, char **av) {
   }
 
   parse_heuristics(av[2]);
-  if (!heuristics or heuristics > max_heuristics) {
+  if (!heuristics_idx or heuristics_idx > max_heuristics) {
     println("Parser: heuristics fun number is wrong.");
     print_usage();
     exit(1);
@@ -47,7 +47,7 @@ auto Parser::get_final_state() -> vector<point> {
   return final_state;
 }
 
-auto Parser::get_heuristics_index() -> int {
+auto Parser::get_heuristics() -> Heuristic {
   return heuristics;
 }
 
@@ -72,8 +72,22 @@ auto Parser::parse_file(string filename) -> void {
 }
 
 auto Parser::parse_heuristics(string h) -> void {
-  if (isdigit(h.at(0)))
-    heuristics = stoi(h);
+  if (isdigit(h.at(0))) {
+    heuristics_idx = stoi(h);
+    switch (heuristics_idx) {
+        case 1:
+            heuristics = Heuristic::MANHATTAN;
+            break;
+        case 2:
+            heuristics = Heuristic::HAMMING;
+            break;
+        case 3:
+            heuristics = Heuristic::HAMMING;
+            break;
+        default:
+            break;
+    }
+  }
   else {
     println("Parser: use digits for heuristics fun number.");
     print_usage();

@@ -26,7 +26,7 @@ public:
 
   auto get_first_state() -> vector<vector<int>>;
   auto get_final_state() -> vector<point>;
-  auto get_heuristics_index() -> int;
+  auto get_heuristics() -> Heuristic;
   auto get_size() -> int;
 
 private:
@@ -44,7 +44,8 @@ private:
   auto construct_final_state() -> void;
   
   string file_data;
-  int heuristics{0};
+  int heuristics_idx{0};
+  Heuristic heuristics{Heuristic::MANHATTAN};
   int size{0};
   vector<vector<int>> first_state;
   vector<point> final_state;
